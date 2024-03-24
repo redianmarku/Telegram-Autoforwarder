@@ -54,4 +54,4 @@ You can specify one or more keywords that, if found in a message, trigger the fo
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
