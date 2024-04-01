@@ -1,3 +1,4 @@
+
 import time
 import asyncio
 from telethon.sync import TelegramClient
@@ -19,12 +20,12 @@ class TelegramForwarder:
 
         # Get a list of all the dialogs (chats)
         dialogs = await self.client.get_dialogs()
-        chats_file = open(f"chats_of_{self.phone_number}.txt", "w")
+        chats_file = open(f"chats_of_{self.phone_number}.txt", "w", encoding="utf-8")  # Specify encoding
         # Print information about each chat
         for dialog in dialogs:
             print(f"Chat ID: {dialog.id}, Title: {dialog.title}")
             chats_file.write(f"Chat ID: {dialog.id}, Title: {dialog.title} \n")
-          
+
 
         print("List of groups printed successfully!")
 
