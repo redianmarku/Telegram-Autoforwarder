@@ -1,6 +1,7 @@
 import time
 import asyncio
 from telethon.sync import TelegramClient
+from telethon import errors
 
 class TelegramForwarder:
     def __init__(self, api_id, api_hash, phone_number):
@@ -15,11 +16,15 @@ class TelegramForwarder:
         # Ensure you're authorized
         if not await self.client.is_user_authorized():
             await self.client.send_code_request(self.phone_number)
-            await self.client.sign_in(self.phone_number, input('Enter the code: '))
+            try:
+                await self.client.sign_in(self.phone_number, input('Enter the code: '))
+            except errors.rpcerrorlist.SessionPasswordNeededError:
+                password = input('Two-step verification is enabled. Enter your password: ')
+                await self.client.sign_in(password=password)
 
         # Get a list of all the dialogs (chats)
         dialogs = await self.client.get_dialogs()
-        chats_file = open(f"chats_of_{self.phone_number}.txt", "w")
+        chats_file = open(f"chats_of_{self.phone_number}.txt", "w", encoding="utf-8")
         # Print information about each chat
         for dialog in dialogs:
             print(f"Chat ID: {dialog.id}, Title: {dialog.title}")
